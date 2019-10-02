@@ -3,5 +3,5 @@
 use App\UssdView;
 
 function ussd_view($name){
-    return UssdView::where('name', $name)->value('body');
+    return UssdView::query()->where('name', $name)->firstOrFail(['body'])->body;
 }
