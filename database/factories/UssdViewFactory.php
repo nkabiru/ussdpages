@@ -13,21 +13,12 @@ $factory->define(UssdView::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(UssdView::class, 'login', [
-    'name' => 'login',
-    'body' => "CON 1. Login \n2. Register\n",
-    'is_menu' => true,
-]);
 
-$factory->state(UssdView::class, 'login-prompt', [
-    'name' => 'login-prompt',
-    'body' => "CON Enter your PIN",
-    'previous_view_id' => function () {
-        return UssdView::where('name', 'login')->value('id')
-            ?? factory(UssdView::class)->state('login')->create()->id;
-    }
-]);
-
+/*
+   -----------------
+   REGISTER VIEWS
+   -----------------
+*/
 $factory->state(UssdView::class, 'register-name', [
     'name' => 'register-name',
     'body' => 'CON Enter your full name',
@@ -45,25 +36,36 @@ $factory->state(UssdView::class, 'register-confirm-pin', [
 
 $factory->state(UssdView::class, 'register-successful', [
     'name' => 'register-successful',
-    'body' => 'END Your registration was successful. Please enter {key} to login',
-]);
-$factory->state(UssdView::class, 'register-failure', [
-    'name' => 'register-failure',
-    'body' => 'END We were unable to register you. Please enter {key} to try again.',
+    'body' => 'END Your registration was successful. Please dial shortcode again to login.',
 ]);
 
+$factory->state(UssdView::class, 'register-failure', [
+    'name' => 'register-failure',
+    'body' => 'END We were unable to register you. Please dial shortcode again to login.',
+]);
+
+/*
+   -----------------
+   LOGIN VIEWS
+   -----------------
+*/
+$factory->state(UssdView::class, 'login-prompt', [
+    'name' => 'login-prompt',
+    'body' => "CON Enter your PIN",
+]);
 
 $factory->state(UssdView::class, 'main-menu', [
     'name' => 'main-menu',
-    'body' => "CON 1. Products \n2. Cart\n3. Previous Purchases\n4. My Account",
-    'is_menu' => true,
-    'previous_view_id' => function () {
-        return UssdView::where('name', 'login-prompt')->value('id')
-            ?? factory(UssdView::class)->state('login-prompt')->create()->id;
-    }
+    'body' => "CON 1. View Products\n2. Previous Orders\n3. My Account"
 ]);
 
-$factory->state(UssdView::class, 'view-products', [
-    'name' => 'view-products',
-    'body' => 'CON 1. Bread\n2. Cupcake\n3. Pancakes'
+$factory->state(UssdView::class, 'product-menu', [
+    'name' => 'product-menu',
+    'body' => "CON 1. Fruits\n2. Vegetables\n3. Spices"
 ]);
+
+$factory->state(UssdView::class, 'view-orders', [
+    'name' => 'view-orders',
+    'body' => "END {orders}"
+]);
+

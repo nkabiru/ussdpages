@@ -14,12 +14,10 @@ class CreateUssdViewsTable extends Migration
     public function up()
     {
         Schema::create('ussd_views', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
             $table->string('body');
-            $table->unsignedInteger('next_view_id')->nullable();
             $table->unsignedInteger('previous_view_id')->nullable();
-            $table->boolean('is_menu')->default(false);
             $table->timestamps();
         });
     }

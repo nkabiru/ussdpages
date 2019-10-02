@@ -36,11 +36,11 @@ class CreateUserInDatabase implements ShouldQueue
      */
     public function handle()
     {
-        $user = new User();
-
-        $user->name = $this->attributes['name'];
-        $user->pin = bcrypt($this->attributes['pin']);
-        $user->phone_number = Str::replaceFirst('+', '', $this->attributes['phone_number']);
+        $user = new User([
+            'name' => $this->attributes['name'],
+            'pin' => bcrypt($this->attributes['pin']),
+            'phone_number' => $this->attributes['phone_number']
+        ]);
 
         if(!$user->save()) {
             throw new Exception('User was not saved');

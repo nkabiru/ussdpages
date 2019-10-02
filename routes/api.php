@@ -17,4 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('ussd', 'UssdViewController@index')->name('ussd-view.index');
+Route::post('ussd', 'DisplayUssdController@index')->name('ussd-view.index');

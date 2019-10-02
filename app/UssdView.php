@@ -7,13 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class UssdView extends Model
 {
     protected $guarded = [];
-    protected $casts = [
-        'is_menu' => 'boolean'
-    ];
 
-    public function nextView()
+    public function nextViews()
     {
-        return $this->belongsTo(static::class, 'next_view_id');
+        return $this->hasMany(static::class, 'previous_view_id');
     }
 
     public function previousView()
@@ -21,4 +18,8 @@ class UssdView extends Model
         return $this->belongsTo(static::class, 'previous_view_id');
     }
 
+    public function sessions()
+    {
+        return $this->hasMany(UssdSession::class, 'current_view_id');
+    }
 }

@@ -12,4 +12,9 @@ class UssdSession extends Model
     {
         return $this->belongsTo(UssdView::class, 'current_view_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

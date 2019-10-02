@@ -14,10 +14,11 @@ class CreateUssdSessionsTable extends Migration
     public function up()
     {
         Schema::create('ussd_sessions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('session_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('current_view_id');
+            $table->string('phone_number');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('current_view_id')->nullable();
             $table->timestamps();
         });
     }

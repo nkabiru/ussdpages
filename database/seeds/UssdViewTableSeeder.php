@@ -13,17 +13,19 @@ class UssdViewTableSeeder extends Seeder
     public function run()
     {
         // Registration views
-        factory(UssdView::class)->state('register-name')->create();
-        factory(UssdView::class)->state('register-pin')->create();
-        factory(UssdView::class)->state('register-confirm-pin')->create();
-        factory(UssdView::class)->state('register-successful')->create();
-        factory(UssdView::class)->state('register-failure')->create();
+        $first = factory(UssdView::class)->state('register-name')->create();
+        $second = factory(UssdView::class)->state('register-pin')->create(['previous_view_id' => $first->id]);
+        $third = factory(UssdView::class)->state('register-confirm-pin')->create(['previous_view_id' => $second->id]);
+
+        factory(UssdView::class)->state('register-successful')->create(['previous_view_id' => $third->id]);
+        factory(UssdView::class)->state('register-failure')->create(['previous_view_id' => $third->id]);
 
         // Main views
-        factory(UssdView::class)->state('login')->create();
-        factory(UssdView::class)->state('login-prompt')->create();
-        factory(UssdView::class)->state('main-menu')->create();
-        factory(UssdView::class)->state('view-products')->create();
+        $loginPrompt = factory(UssdView::class)->state('login-prompt')->create();
+        $mainMenu = factory(UssdView::class)->state('main-menu')->create(['previous_view_id' => $loginPrompt->id]);
+
+        factory(UssdView::class)->state('product-menu')->create(['previous_view_id' => $mainMenu->id]);
+        factory(UssdView::class)->state('view-orders')->create(['previous_view_id' => $mainMenu->id]);
 
     }
 }
