@@ -3,15 +3,11 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class UssdRegistrationTest extends TestCase
 {
     use RefreshDatabase;
-
-    private $text;
-    private $formData;
 
     protected function setUp(): void
     {
@@ -19,25 +15,13 @@ class UssdRegistrationTest extends TestCase
 
         $this->seed('UssdViewTableSeeder');
 
-        $this->formData = [
-            'sessionId' => 'ATU_id' . Str::random(),
-            'phoneNumber' => '+254700000000'
-        ];
-
         $this->withoutExceptionHandling();
-    }
-
-    public function ussdPost(string $data = '')
-    {
-        $this->post(route('display-ussd.index'), $this->formData + ['text' => $data]);
-
-        return $this;
     }
 
     /** @test */
     public function it_should_display_the_register_name_view()
     {
-        $this->post(route('display-ussd.index'),$this->formData + [
+        $this->post(route('display-ussd.index'),$this->sessionData + [
             'text' => ''
         ])->assertSeeText("Enter your full name");
     }
@@ -47,7 +31,7 @@ class UssdRegistrationTest extends TestCase
     {
         $this->ussdPost();
 
-        $this->post(route('display-ussd.index'),$this->formData + [
+        $this->post(route('display-ussd.index'),$this->sessionData + [
                 'text' => 'John Doe'
             ])->assertSeeText("Enter a new PIN");
     }
@@ -58,7 +42,7 @@ class UssdRegistrationTest extends TestCase
         $this->ussdPost()
             ->ussdPost('John Doe');
 
-        $this->post(route('display-ussd.index'),$this->formData + [
+        $this->post(route('display-ussd.index'),$this->sessionData + [
                 'text' => '1234'
             ])->assertSeeText("Confirm your PIN");
     }
@@ -70,7 +54,7 @@ class UssdRegistrationTest extends TestCase
             ->ussdPost('John Doe')
             ->ussdPost('John Doe*1234');
 
-        $this->post(route('display-ussd.index'), $this->formData + [
+        $this->post(route('display-ussd.index'), $this->sessionData + [
                 'text' => 'John Doe*1234*1234'
             ])
             ->assertSeeText('Your registration was successful');
@@ -94,7 +78,7 @@ class UssdRegistrationTest extends TestCase
             ->ussdPost('John Doe')
             ->ussdPost('John Doe*1234');
 
-        $this->post(route('display-ussd.index'), $this->formData + [
+        $this->post(route('display-ussd.index'), $this->sessionData + [
                 'text' => 'John Doe*1234*1235'
             ])
             ->assertSeeText('We were unable to register you');
