@@ -54,14 +54,21 @@ $factory->state(UssdView::class, 'login-prompt', [
     'body' => "CON Enter your PIN",
 ]);
 
+$factory->state(UssdView::class, 'login-failed', [
+    'name' => 'login-failed',
+    'body' => "END You entered the wrong PIN. Try again",
+]);
+
 $factory->state(UssdView::class, 'main-menu', [
     'name' => 'main-menu',
-    'body' => "CON 1. View Products\n2. Previous Orders\n3. My Account"
+    'body' => "CON 1. View Products\n2. Previous Orders\n3. My Account",
+    'is_menu' => true,
 ]);
 
 $factory->state(UssdView::class, 'product-menu', [
     'name' => 'product-menu',
-    'body' => "CON 1. Fruits\n2. Vegetables\n3. Spices"
+    'body' => "CON 1. Fruits\n2. Vegetables\n3. Spices",
+    'is_menu' => true,
 ]);
 
 $factory->state(UssdView::class, 'view-orders', [

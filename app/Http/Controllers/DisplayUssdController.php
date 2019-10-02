@@ -6,6 +6,7 @@ use App\Jobs\CreateUserInDatabase;
 use App\User;
 use App\UssdSession;
 use App\UssdView;
+use Hash;
 use Illuminate\Http\Request;
 
 class DisplayUssdController extends Controller
@@ -24,20 +25,31 @@ class DisplayUssdController extends Controller
             $session->save();
         }
 
+        // Convert text string into an array
+        $textArray = explode('*', $request->text);
+
+        $loginView = UssdView::where('name', 'login-prompt')->first();
+
         // If session has a user, it means that user is registered. Display the login menu.
         if ($session->user) {
             if (! $session->currentView) {
-                $view = UssdView::where('name','login')->first();
+                $view = $loginView;
             } else {
-                $view = $session->currentView->nextViews->first();
+                // Check if user has entered the correct PIN, and show the main menu
+                if ($session->currentView->is($loginView) && Hash::check($textArray[0], $user->pin)) {
+                    $view = $session->currentView->nextViews->last();
+                }else if ($session->currentView->isMenu) {
+                    // If the currentView is a menu, the user input determines how we should move on from here.
+                    $position = last($textArray) - 1;
+                    $view = $session->currentView->nextViews[$position];
+                } else {
+                    $view = $session->currentView->nextViews->first();
+                }
             }
 
             $session->currentView()->associate($view);
             $session->save();
         }
-
-        // Convert text string into an array
-        $textArray = explode('*', $request->text);
 
         // Check if user is registered
         if (! $session->user) {

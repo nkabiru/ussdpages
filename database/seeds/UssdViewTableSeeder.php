@@ -22,6 +22,7 @@ class UssdViewTableSeeder extends Seeder
 
         // Main views
         $loginPrompt = factory(UssdView::class)->state('login-prompt')->create();
+        factory(UssdView::class)->state('login-failed')->create(['previous_view_id' => $loginPrompt->id]);
         $mainMenu = factory(UssdView::class)->state('main-menu')->create(['previous_view_id' => $loginPrompt->id]);
 
         factory(UssdView::class)->state('product-menu')->create(['previous_view_id' => $mainMenu->id]);
