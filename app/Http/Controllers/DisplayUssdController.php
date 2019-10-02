@@ -84,8 +84,6 @@ class DisplayUssdController extends Controller
 
                     $session->currentView()->associate($view);
                     $session->save();
-                } else {
-                    $session->delete();
                 }
 
             }

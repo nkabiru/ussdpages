@@ -18,6 +18,7 @@ class CreateUssdViewsTable extends Migration
             $table->string('name');
             $table->string('body');
             $table->unsignedInteger('previous_view_id')->nullable();
+            $table->boolean('is_menu')->default(false);
             $table->timestamps();
         });
     }

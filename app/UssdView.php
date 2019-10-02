@@ -8,6 +8,10 @@ class UssdView extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'is_menu' => 'boolean'
+    ];
+
     public function nextViews()
     {
         return $this->hasMany(static::class, 'previous_view_id');
