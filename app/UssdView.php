@@ -26,4 +26,10 @@ class UssdView extends Model
     {
         return $this->hasMany(UssdSession::class, 'current_view_id');
     }
+
+    public function isLast()
+    {
+        return $this->nextViews()->doesntExist();
+    }
+
 }

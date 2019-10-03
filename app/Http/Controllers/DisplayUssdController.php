@@ -64,7 +64,6 @@ class DisplayUssdController extends Controller
 
                 if ($nextViews->isNotEmpty()) {
                     $view = $nextViews->first();
-
                     // If the current view is confirm-pin, it should compare the two entered PINs if they match.
                     // If they match, create user in database.
                     $confirmPinView = UssdView::where('name', 'register-confirm-pin')->first();
@@ -79,9 +78,7 @@ class DisplayUssdController extends Controller
                                 'phone_number' => $request->phoneNumber
                             ]);
                         }
-
                     }
-
                     $session->currentView()->associate($view);
                     $session->save();
                 }

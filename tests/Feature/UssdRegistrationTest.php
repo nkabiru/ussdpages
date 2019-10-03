@@ -72,6 +72,21 @@ class UssdRegistrationTest extends TestCase
     }
 
     /** @test */
+    public function it_should_delete_the_session_when_its_complete()
+    {
+        $this->ussdPost()
+            ->ussdPost('John Doe')
+            ->ussdPost('John Doe*1234');
+
+        $this->assertDatabaseHas('ussd_sessions', ['session_id' => $this->sessionData['sessionId']]);
+
+        $this->ussdPost('John Doe*1234*1234');
+
+        $this->assertDatabaseMissing('ussd_sessions', ['session_id' => $this->sessionData['sessionId']]);
+    }
+
+
+    /** @test */
     public function it_should_display_register_failure_when_pin_and_confirm_pin_dont_match()
     {
         $this->ussdPost()

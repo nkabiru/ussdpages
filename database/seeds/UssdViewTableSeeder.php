@@ -26,7 +26,10 @@ class UssdViewTableSeeder extends Seeder
         $mainMenu = factory(UssdView::class)->state('main-menu')->create(['previous_view_id' => $loginPrompt->id]);
 
         factory(UssdView::class)->state('product-menu')->create(['previous_view_id' => $mainMenu->id]);
-        factory(UssdView::class)->state('view-orders')->create(['previous_view_id' => $mainMenu->id]);
+
+        $makeInquiry = factory(UssdView::class)->state('make-inquiry')->create(['previous_view_id' => $mainMenu->id]);
+        $confirmInquiry = factory(UssdView::class)->state('confirm-inquiry')->create(['previous_view_id' => $makeInquiry->id]);
+        factory(UssdView::class)->state('inquiry-sent')->create(['previous_view_id' => $confirmInquiry->id]);
 
     }
 }

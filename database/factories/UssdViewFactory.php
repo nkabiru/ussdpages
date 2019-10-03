@@ -61,7 +61,7 @@ $factory->state(UssdView::class, 'login-failed', [
 
 $factory->state(UssdView::class, 'main-menu', [
     'name' => 'main-menu',
-    'body' => "CON 1. View Products\n2. Previous Orders\n3. My Account",
+    'body' => "CON 1. View Products\n2. Make Inquiry\n3. My Account",
     'is_menu' => true,
 ]);
 
@@ -71,8 +71,18 @@ $factory->state(UssdView::class, 'product-menu', [
     'is_menu' => true,
 ]);
 
-$factory->state(UssdView::class, 'view-orders', [
-    'name' => 'view-orders',
-    'body' => "END {orders}"
+$factory->state(UssdView::class, 'make-inquiry', [
+    'name' => 'make-inquiry',
+    'body' => "CON What is your inquiry?"
+]);
+
+$factory->state(UssdView::class, 'confirm-inquiry', [
+    'name' => 'confirm-inquiry',
+    'body' => "CON Please confirm you want to send the message? (Y/N):\n {message}"
+]);
+
+$factory->state(UssdView::class, 'inquiry-sent', [
+    'name' => 'inquiry-sent',
+    'body' => "END Your message has been sent"
 ]);
 
