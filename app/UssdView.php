@@ -27,9 +27,14 @@ class UssdView extends Model
         return $this->hasMany(UssdSession::class, 'current_view_id');
     }
 
+    public function isNotLast()
+    {
+        return $this->nextViews()->exists();
+    }
+
     public function isLast()
     {
-        return $this->nextViews()->doesntExist();
+        return ! $this->isNotLast();
     }
 
     public function isConfirmPinView()

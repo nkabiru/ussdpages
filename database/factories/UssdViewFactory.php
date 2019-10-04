@@ -86,3 +86,7 @@ $factory->state(UssdView::class, 'inquiry-sent', [
     'body' => "END Your message has been sent"
 ]);
 
+$factory->state(UssdView::class, 'account-details', [
+    'name' => 'account-details',
+    'body' => "END {details}"
+]);

@@ -31,5 +31,7 @@ class UssdViewTableSeeder extends Seeder
         $confirmInquiry = factory(UssdView::class)->state('confirm-inquiry')->create(['previous_view_id' => $makeInquiry->id]);
         factory(UssdView::class)->state('inquiry-sent')->create(['previous_view_id' => $confirmInquiry->id]);
 
+        factory(UssdView::class)->state('account-details')->create(['previous_view_id' => $mainMenu->id]);
+
     }
 }
