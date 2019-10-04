@@ -37,4 +37,11 @@ class UssdSession extends Model
 
         return $this->fresh()->currentView;
     }
+
+    public function makeCurrentView(UssdView $view)
+    {
+        $this->currentView()->associate($view);
+
+        return $this->save();
+    }
 }

@@ -28,10 +28,10 @@ class DisplayUssdController extends Controller
         // Convert text string into an array
         $textArray = explode('*', $request->text);
 
-        $loginView = UssdView::where('name', 'login-prompt')->first();
-
         // If session has a user, it means that user is registered. Display the login menu.
         if ($session->user) {
+            $loginView = UssdView::where('name', 'login-prompt')->first();
+
             if (! $session->currentView) {
                 $view = $loginView;
             } else {
@@ -47,17 +47,16 @@ class DisplayUssdController extends Controller
                 }
             }
 
-            $session->currentView()->associate($view);
-            $session->save();
+            $session->makeCurrentView($view);
         }
 
         // Check if user is registered
         if (! $session->user) {
             // If session has no current view, it means that this is the first prompt. Display the register-name view.
+            $registerView = UssdView::where('name', 'register-name')->first();
+
             if (! $session->currentView) {
-                $view = UssdView::where('name', 'register-name')->first();
-                $session->currentView()->associate($view);
-                $session->save();
+                $session->makeCurrentView($registerView);
             } else {
                 // Get the next view and save it as the new current view. If there is no next view, end the session.
                 $nextViews = $session->currentView->nextViews;
@@ -87,7 +86,6 @@ class DisplayUssdController extends Controller
 
 
         }
-
-        return $view->body ?? "END There was a problem displaying the view";
+        return $session->currentView->body ?? "END There was a problem displaying the view";
     }
 }

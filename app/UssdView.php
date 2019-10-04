@@ -32,4 +32,9 @@ class UssdView extends Model
         return $this->nextViews()->doesntExist();
     }
 
+    public function isConfirmPinView()
+    {
+        return $this->is(static::where('name', 'register-confirm-pin')->first());
+    }
+
 }
