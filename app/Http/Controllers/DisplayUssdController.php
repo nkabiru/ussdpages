@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CreateUserInDatabase;
 use App\Navigator;
+use App\State\Registration\StateContext;
 use App\User;
 use App\UssdSession;
 use App\UssdView;
@@ -14,10 +15,30 @@ class DisplayUssdController extends Controller
 {
     public function index(Request $request)
     {
-        $navigator = new Navigator($request);
+        $inputArray = explode('*', $request->input('text'));
 
-        return $navigator->view();
+        $session = UssdSession::firstOrCreate([
+            'session_id' => $request->input('sessionId'),
+            'phone_number' => $request->input('phoneNumber'),
+        ]);
+
+        if ($user = User::where('phone_number', $request->phoneNumber)->first()) {
+            $session->user()->associate($user);
+            $session->save();
+        }
+
+        if(! $session->user) {
+            $context = new StateContext($session);
+            $context->name();
+        }
+
+        if ($inputArray[0]) {
+            $context->pin();
+        }
+
+        return $session->currentView->body;
     }
+
     public function index1(Request $request)
     {
         // Store the session

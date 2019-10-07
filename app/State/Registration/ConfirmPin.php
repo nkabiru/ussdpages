@@ -1,17 +1,24 @@
 <?php
 
-namespace App\State;
+namespace App\State\Registration;
 
-class ConfirmPin implements UnregisteredUssdState
+use App\UssdSession;
+
+class ConfirmPin implements UssdState
 {
     /**
-     * @var UnregisteredUssdContext
+     * @var StateContext
      */
     private $context;
+    /**
+     * @var UssdSession
+     */
+    private $session;
 
-    public function __construct(UnregisteredUssdContext $context)
+    public function __construct(StateContext $context, UssdSession $session)
     {
         $this->context = $context;
+        $this->session = $session;
     }
 
     public function name(): void
@@ -27,7 +34,8 @@ class ConfirmPin implements UnregisteredUssdState
     public function pinMatch(): void
     {
         // TODO: Implement pinMatch() method.
-        echo "END You have successfully registered.";
+        $view = UssdView::where('name', 'register-successful')->first();
+        $this->session->makeCurrentView($view);
 
         $this->context->changeState(new CreateUser($this->context));
     }
@@ -35,7 +43,8 @@ class ConfirmPin implements UnregisteredUssdState
     public function pinMisMatch(): void
     {
         // TODO: Implement pinMisMatch() method.
-        echo "PINs are not the same";
+        $view = UssdView::where('name', 'register-failed')->first();
+        $this->session->makeCurrentView($view);
 
         $this->context->changeState(new $this($this->context));
     }

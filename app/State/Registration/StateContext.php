@@ -1,17 +1,19 @@
 <?php
 
-namespace App\State;
+namespace App\State\Registration;
 
-class UnregisteredUssdContext
+use App\UssdSession;
+
+class StateContext
 {
     /**
      * @var RegisterName
      */
-    private $state;
+    public $state;
 
-    public function __construct()
+    public function __construct(UssdSession $session)
     {
-        $this->state = new RegisterName($this);
+        $this->state = new RegisterName($this, $session);
     }
 
     public function name()
@@ -34,7 +36,7 @@ class UnregisteredUssdContext
         $this->state->pinMisMatch();
     }
 
-    public function changeState(UnregisteredUssdState $state)
+    public function changeState(UssdState $state)
     {
         $this->state = $state;
     }

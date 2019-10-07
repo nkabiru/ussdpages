@@ -1,8 +1,8 @@
 <?php
 
-namespace App\State;
+namespace App\State\Registration;
 
-class CreateUser implements UnregisteredUssdState
+class CreateUser implements UssdState
 {
 
     public function name(): void

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\State;
+namespace App\State\Registration;
 
-interface UnregisteredUssdState
+interface UssdState
 {
     public function name(): void ;
 
