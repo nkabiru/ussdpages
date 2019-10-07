@@ -4,11 +4,11 @@ namespace App;
 
 use App\Jobs\CreateUserInDatabase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class Navigator
 {
     private $request;
-
     /**
      * @var UssdSession
      */
@@ -43,58 +43,62 @@ class Navigator
         }
     }
 
-    public function getView()
+    protected function saveState(string $viewName, string $input = null)
     {
-        if(is_null($this->session->user)) {
-            $this->registerUser();
+        $state = $this->session->state ?? [];
+        $state += [$viewName => $input];
+
+        $this->session->state = $state;
+        $this->session->save();
+    }
+
+    protected function displayFirstView()
+    {
+        if ($this->session->user) {
+            $view = UssdView::where('name', 'login-prompt')->first();
+        } else {
+            $view = UssdView::where('name', 'register-name')->first();
         }
 
-        if($this->session->user) {
-            $this->loginUser();
+        $this->session->makeCurrentView($view);
+    }
+
+    protected function login(string $input)
+    {
+        $this->saveState($this->session->currentView->name, $input);
+
+        if (Hash::check($input, $this->session->user->pin)) {
+            $loginView = UssdView::where('name', 'login');
+            $this->saveState($loginView->name, $input);
         }
     }
 
-    protected function registerUser()
+    protected function registerName($input)
     {
-        $registerView = UssdView::where('name', 'register-name')->first();
+        $this->saveState($this->session->currentView->name, $input);
 
-        if (is_null($this->session->currentView)) {
-            $this->session->makeCurrentView($registerView);
-        }
-
-        if ($this->session->currentView) {
-            $this->handleRegistrationSequence();
-        }
+        $this->session->nextView();
     }
 
-    private function handleRegistrationSequence()
+    protected function registerPin($input)
     {
-        if ($this->session->currentView->isConfirmPinView()) {
-            $this->confirmPin();
-        }
+        $this->saveState($this->session->currentView->name, $input);
 
-        if ($this->session->currentView->isNotLast()) {
-            return $this->session->nextView();
-        }
+        $this->session->nextView();
     }
 
-    private function confirmPin()
+    public function view()
     {
-        assertTrue($this->session->currentView->name === 'register-confirm-pin');
-
-        if ($this->input[1] !== $this->input[2]) {
-            $failedRegistrationView = UssdView::where('name', 'register-failure')->first();
-            $this->session->makeCurrentView($failedRegistrationView);
-
-            return $this->session->currentView;
+        if (is_null($this->session->state)) {
+            $this->displayFirstView();
         }
 
-        return CreateUserInDatabase::dispatchNow([
-            'name' => $this->input[0],
-            'pin' => $this->input[1],
-            'phone_number' => $this->request->input('phoneNumber')
-        ]);
+        $registerName = UssdView::where('name', 'register-name')->first();
+
+        if ($this->session->currentView->is($registerName) && $this->request->text != '') {
+            $this->registerName(last($this->input));
+        }
+
+        return $this->session->currentView->body;
     }
-
-
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\CreateUserInDatabase;
+use App\Navigator;
 use App\User;
 use App\UssdSession;
 use App\UssdView;
@@ -12,6 +13,12 @@ use Illuminate\Http\Request;
 class DisplayUssdController extends Controller
 {
     public function index(Request $request)
+    {
+        $navigator = new Navigator($request);
+
+        return $navigator->view();
+    }
+    public function index1(Request $request)
     {
         // Store the session
         $session = UssdSession::firstOrCreate([
