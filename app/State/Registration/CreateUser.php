@@ -21,14 +21,18 @@ class CreateUser implements State
 
     public function input($input): void
     {
-       if ($this->pinMatches($input)) {
-          echo "Creating user";
-       }
+        $previousInputs = explode('*', request('text'));
+
+        CreateUserInDatabase::dispatchNow([
+            'name' => $previousInputs[-2],
+            'phone_number' => request('phoneNumber'),
+            'pin' => $input
+        ]);
     }
 
 
     public function view()
     {
-        // TODO: Implement view() method.
+        return "END You have registered successfully. Please dial the shortcode again to login";
     }
 }
