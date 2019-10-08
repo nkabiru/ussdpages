@@ -2,26 +2,33 @@
 
 namespace App\State\Registration;
 
-class CreateUser implements UssdState
+use App\Jobs\CreateUserInDatabase;
+use App\UssdSession;
+
+class CreateUser implements State
 {
+    use PinMatching;
 
-    public function name(): void
+    private $context;
+    private $session;
+
+    public function __construct(StateContext $context, UssdSession $session)
     {
-        // TODO: Implement name() method.
+        $this->context = $context;
+        $this->session = $session;
+        $this->session->update(['state' => static::class]);
     }
 
-    public function pin(): void
+    public function input($input): void
     {
-        // TODO: Implement pin() method.
+       if ($this->pinMatches($input)) {
+          echo "Creating user";
+       }
     }
 
-    public function pinMatch(): void
-    {
-        // TODO: Implement pinMatch() method.
-    }
 
-    public function pinMisMatch(): void
+    public function view()
     {
-        // TODO: Implement pinMisMatch() method.
+        // TODO: Implement view() method.
     }
 }

@@ -5,7 +5,7 @@ namespace App\State\Registration;
 use App\UssdSession;
 use App\UssdView;
 
-class EnterPin implements State
+class EnterName implements State
 {
     private $context;
     private $session;
@@ -19,14 +19,12 @@ class EnterPin implements State
 
     public function input(string $input)
     {
-        // TODO: Implement pin() method.
-
-        $this->context->changeState(new ConfirmPin($this->context, $this->session));
+        $this->context->changeState(new EnterPin($this->context, $this->session));
     }
+
 
     public function view()
     {
-        return "CON Enter your PIN";
+        return "CON Enter your name";
     }
-
 }

@@ -19,7 +19,7 @@ class CreateUssdSessionsTable extends Migration
             $table->string('phone_number');
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('current_view_id')->nullable();
-            $table->text('state')->nullable();
+            $table->string('state')->nullable();
             $table->timestamps();
         });
     }

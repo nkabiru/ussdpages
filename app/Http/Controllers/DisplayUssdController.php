@@ -15,28 +15,21 @@ class DisplayUssdController extends Controller
 {
     public function index(Request $request)
     {
-        $inputArray = explode('*', $request->input('text'));
+        $input = last(explode('*', $request->input('text')));
 
         $session = UssdSession::firstOrCreate([
-            'session_id' => $request->input('sessionId'),
-            'phone_number' => $request->input('phoneNumber'),
+            'session_id' => $request->sessionId,
+            'phone_number' => $request->phoneNumber,
         ]);
 
-        if ($user = User::where('phone_number', $request->phoneNumber)->first()) {
-            $session->user()->associate($user);
-            $session->save();
-        }
+        $context = new StateContext($session);
 
-        if(! $session->user) {
-            $context = new StateContext($session);
-            $context->name();
+        if (! is_null($session->state)) {
+            $context->changeState(new $session->state($context, $session));
         }
+        $context->input($input);
 
-        if ($inputArray[0]) {
-            $context->pin();
-        }
-
-        return $session->currentView->body;
+        return $context->view();
     }
 
     public function index1(Request $request)

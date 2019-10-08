@@ -6,38 +6,25 @@ use App\UssdSession;
 
 class StateContext
 {
-    /**
-     * @var RegisterName
-     */
     public $state;
 
     public function __construct(UssdSession $session)
     {
-        $this->state = new RegisterName($this, $session);
+        $this->state = new Initial($this, $session);
     }
 
-    public function name()
+    public function input($input)
     {
-        $this->state->name();
+        $this->state->input($input);
     }
 
-    public function pin()
-    {
-        $this->state->pin();
-    }
-
-    public function pinMatch()
-    {
-        $this->state->pinMatch();
-    }
-
-    public function pinMisMatch()
-    {
-        $this->state->pinMisMatch();
-    }
-
-    public function changeState(UssdState $state)
+    public function changeState(State $state)
     {
         $this->state = $state;
+    }
+
+    public function view()
+    {
+        return $this->state->view();
     }
 }
