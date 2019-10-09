@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CreateUserInDatabase;
 use App\Navigator;
+use App\State\Login\MainContext;
 use App\State\Registration\RegistrationContext;
 use App\User;
 use App\UssdSession;
@@ -22,11 +23,17 @@ class DisplayUssdController extends Controller
             'phone_number' => $request->phoneNumber,
         ]);
 
-        $context = new RegistrationContext($session);
+        if ($user = User::where('phone_number', $request->phoneNumber)->first()) {
+            $session->user()->associate($user);
+            $session->save();
+        }
+
+        $context = $session->user ? new MainContext($session) : new RegistrationContext($session);
 
         if (! is_null($session->state)) {
             $context->changeState(new $session->state($context, $session));
         }
+
         $context->input($input);
 
         return $context->view();
