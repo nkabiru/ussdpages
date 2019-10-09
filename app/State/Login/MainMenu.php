@@ -23,7 +23,7 @@ class MainMenu implements State
     {
         switch ($input) {
             case '1':
-               $nextState = new StoreItem($this->context, $this->session);
+               $nextState = new EnterItemName($this->context, $this->session);
                break;
             case '2':
                $nextState = new RemoveItem($this->context, $this->session);

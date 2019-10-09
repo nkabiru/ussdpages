@@ -4,10 +4,13 @@ namespace App\State\Registration;
 
 use App\Jobs\CreateUserInDatabase;
 use App\State\State;
+use App\State\Traits\DeletesUssdSessions;
 use App\UssdSession;
 
 class CreateUser implements State
 {
+    use DeletesUssdSessions;
+
     private $context;
     private $session;
 
@@ -32,7 +35,7 @@ class CreateUser implements State
     public function view()
     {
         $this->createUser();
-        $this->deleteUssdSession();
+        $this->deleteSession();
 
         return "END You have registered successfully. Please dial the shortcode again to login";
     }
@@ -47,11 +50,5 @@ class CreateUser implements State
             'phone_number' => $this->session->phone_number
         ]);
     }
-
-    protected function deleteUssdSession()
-    {
-        $this->session->delete();
-    }
-
 
 }

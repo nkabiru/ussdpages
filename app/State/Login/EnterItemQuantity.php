@@ -3,10 +3,13 @@
 namespace App\State\Login;
 
 use App\State\State;
+use App\State\Traits\SavesInputHistory;
 use App\UssdSession;
 
-class StoreItem implements State
+class EnterItemQuantity implements State
 {
+    use SavesInputHistory;
+
     protected $context;
     protected $session;
 
@@ -14,15 +17,19 @@ class StoreItem implements State
     {
         $this->context = $context;
         $this->session = $session;
+
+        $this->session->update(['state' => static::class]);
     }
 
     public function input(string $input)
     {
-        $this->context->changeState(new Login($this->context, $this->session));
+        $this->saveInputHistory($input);
+
+        $this->context->changeState(new SaveItem($this->context, $this->session));
     }
 
     public function view()
     {
-        return "CON Enter item name:";
+        return "CON Enter item quantity:";
     }
 }

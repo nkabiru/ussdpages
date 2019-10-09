@@ -16,7 +16,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->sessionData = [
-            'sessionId' => 'ATU_id' . Str::random(),
+            'sessionId' => 'ATU_id' . md5('test'),
             'phoneNumber' => '+254700000000'
         ];
     }
