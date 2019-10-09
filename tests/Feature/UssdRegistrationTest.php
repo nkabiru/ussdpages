@@ -13,8 +13,6 @@ class UssdRegistrationTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed('UssdViewTableSeeder');
-
         $this->withoutExceptionHandling();
     }
 
@@ -96,7 +94,6 @@ class UssdRegistrationTest extends TestCase
         $this->assertDatabaseMissing('ussd_sessions', ['session_id' => $this->sessionData['sessionId']]);
     }
 
-
     /** @test */
     public function it_should_display_register_failure_when_pin_and_confirm_pin_dont_match()
     {
@@ -121,6 +118,4 @@ class UssdRegistrationTest extends TestCase
             'text' => 'John Doe*1234*#'])
             ->assertSeeText('Enter a new PIN');
     }
-
-
 }
