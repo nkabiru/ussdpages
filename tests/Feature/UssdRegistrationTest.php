@@ -74,8 +74,6 @@ class UssdRegistrationTest extends TestCase
     /** @test */
     public function it_should_delete_the_session_when_its_complete()
     {
-        $this->markTestSkipped('Work on later');
-
         $this->ussdPost()
             ->ussdPost('John Doe')
             ->ussdPost('John Doe*1234');
