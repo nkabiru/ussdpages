@@ -2,6 +2,7 @@
 
 namespace App\State\Registration;
 
+use App\State\State;
 use App\UssdSession;
 
 class RegistrationContext

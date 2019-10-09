@@ -3,6 +3,7 @@
 namespace App\State\Registration;
 
 use App\Jobs\CreateUserInDatabase;
+use App\State\State;
 use App\UssdSession;
 
 class CreateUser implements State
