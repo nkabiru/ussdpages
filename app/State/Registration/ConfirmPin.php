@@ -2,6 +2,9 @@
 
 namespace App\State\Registration;
 
+use App\State\Traits\Backable;
+use App\State\Traits\PinMatching;
+use App\State\Traits\SavesInputHistory;
 use App\UssdSession;
 
 class ConfirmPin implements State

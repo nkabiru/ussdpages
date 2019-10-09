@@ -1,8 +1,6 @@
 <?php
 
-
-namespace App\State\Registration;
-
+namespace App\State\Traits;
 
 trait Backable
 {

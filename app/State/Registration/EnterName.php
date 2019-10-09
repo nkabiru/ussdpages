@@ -2,8 +2,8 @@
 
 namespace App\State\Registration;
 
+use App\State\Traits\SavesInputHistory;
 use App\UssdSession;
-use App\UssdView;
 
 class EnterName implements State
 {

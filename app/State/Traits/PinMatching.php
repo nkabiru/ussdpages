@@ -1,8 +1,8 @@
 <?php
 
+namespace App\State\Traits;
 
-namespace App\State\Registration;
-
+use App\State\Registration\EnterPin;
 
 trait PinMatching
 {

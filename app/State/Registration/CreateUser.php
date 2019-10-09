@@ -22,7 +22,6 @@ class CreateUser implements State
 
     }
 
-
     /**
      *  Creating the user here because the input function won't be hit by the user.
      *  Same goes for deleting the UssdSession.

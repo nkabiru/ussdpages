@@ -2,6 +2,7 @@
 
 namespace App\State\Registration;
 
+use App\State\Traits\SavesInputHistory;
 use App\UssdSession;
 
 class EnterPin implements State
