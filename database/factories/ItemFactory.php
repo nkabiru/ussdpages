@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(Item::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
-        'quantity' => $faker->numberBetween(0, 100)
+        'quantity' => $faker->numberBetween(5, 100)
     ];
 });

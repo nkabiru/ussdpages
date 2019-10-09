@@ -26,7 +26,7 @@ class MainMenu implements State
                $nextState = new EnterItemName($this->context, $this->session);
                break;
             case '2':
-               $nextState = new RemoveItem($this->context, $this->session);
+               $nextState = new RemoveItemName($this->context, $this->session);
                break;
             case '3':
                $nextState = new ViewItems($this->context, $this->session);
