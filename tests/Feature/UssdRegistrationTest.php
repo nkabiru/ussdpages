@@ -96,7 +96,7 @@ class UssdRegistrationTest extends TestCase
         $this->post(route('display-ussd.index'), $this->sessionData + [
                 'text' => 'John Doe*1234*1235'
             ])
-            ->assertSeeText('We were unable to register you');
+            ->assertSeeText('The PINs did not match. Please try to confirm it again');
     }
 
 

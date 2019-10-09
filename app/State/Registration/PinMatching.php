@@ -6,13 +6,13 @@ namespace App\State\Registration;
 
 trait PinMatching
 {
-    private function pinMatches(string $input)
+    protected function pinMatches(string $input)
     {
-        return !! $input;
+        return $this->session->input_history[EnterPin::class] === $input;
     }
 
-    private function pindoesntMatch(string $input)
+    protected function pindoesntMatch(string $input)
     {
-        return ! $input;
+        return ! $this->pinMatches($input);
     }
 }
