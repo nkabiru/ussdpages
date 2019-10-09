@@ -7,8 +7,6 @@ use App\UssdSession;
 
 class CreateUser implements State
 {
-    use PinMatching;
-
     private $context;
     private $session;
 
@@ -46,7 +44,7 @@ class CreateUser implements State
         CreateUserInDatabase::dispatchNow([
             'name' => $inputHistory[EnterName::class],
             'pin' => $inputHistory[EnterPin::class],
-            'phone_number' => request('phoneNumber')
+            'phone_number' => $this->session->phone_number
         ]);
     }
 

@@ -79,7 +79,7 @@ class UssdRegistrationTest extends TestCase
             ->ussdPost('John Doe*1234')
             ->ussdPost('John Doe*1234*1234');
 
-        $this->assertDatabaseHas('users', ['name' => 'John Doe']);
+        $this->assertDatabaseHas('users', ['name' => 'John Doe', 'phone_number' => $this->sessionData['phoneNumber']]);
     }
 
     /** @test */
