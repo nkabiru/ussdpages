@@ -48,6 +48,17 @@ class UssdRegistrationTest extends TestCase
     }
 
     /** @test */
+    public function confirm_pin_view_should_display_the_back_button_option()
+    {
+        $this->ussdPost()
+            ->ussdPost('John Doe');
+
+        $this->post(route('display-ussd.index'),$this->sessionData + [
+                'text' => '1234'
+            ])->assertSeeText("(Press # to go back)");
+    }
+
+    /** @test */
     public function it_should_display_register_success_view_when_confirm_pin_matches_entered_pin()
     {
         $this->ussdPost()
@@ -97,6 +108,18 @@ class UssdRegistrationTest extends TestCase
                 'text' => 'John Doe*1234*1235'
             ])
             ->assertSeeText('The PINs did not match. Please try to confirm it again');
+    }
+
+    /** @test */
+    public function it_should_go_back_to_the_enter_pin_menu_from_the_confirm_pin_menu()
+    {
+        $this->ussdPost()
+            ->ussdPost('John Doe')
+            ->ussdPost('John Doe*1234');
+
+        $this->post(route('display-ussd.index'), $this->sessionData + [
+            'text' => 'John Doe*1234*#'])
+            ->assertSeeText('Enter a new PIN');
     }
 
 

@@ -24,6 +24,7 @@ class ConfirmPin implements State
 
         if ($this->isBackButton($input)) {
             $this->context->changeState(new EnterPin($this->context, $this->session));
+            return;
         }
 
         if ($this->pinMatches($input)) {
@@ -37,6 +38,6 @@ class ConfirmPin implements State
 
     public function view()
     {
-        return "CON Confirm your PIN";
+        return "CON Confirm your PIN\n(Press # to go back)";
     }
 }
