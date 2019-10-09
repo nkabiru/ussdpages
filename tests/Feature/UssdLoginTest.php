@@ -17,7 +17,6 @@ class UssdLoginTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed('UssdViewTableSeeder');
         $this->user = factory(User::class)->create(['phone_number' => $this->sessionData['phoneNumber']]);
 
         $this->withoutExceptionHandling();
@@ -27,7 +26,7 @@ class UssdLoginTest extends TestCase
     public function it_shows_the_enter_pin_to_login_page()
     {
         $this->post(route('display-ussd.index'), $this->sessionData + ['text' => ''])
-            ->assertSeeText(ussd_view('login-prompt'));
+            ->assertSeeText('Enter your PIN');
     }
 
     /** @test */
@@ -36,7 +35,7 @@ class UssdLoginTest extends TestCase
         $this->ussdPost();
 
         $this->post(route('display-ussd.index'), $this->sessionData + ['text' => '1234'])
-            ->assertSeeText(ussd_view('main-menu'));
+            ->assertSeeText('Main Menu');
     }
 
     /** @test */
@@ -45,7 +44,7 @@ class UssdLoginTest extends TestCase
         $this->ussdPost();
 
         $this->post(route('display-ussd.index'), $this->sessionData + ['text' => '1235'])
-            ->assertSeeText(ussd_view('login-failed'));
+            ->assertSeeText('You have entered the wrong PIN');
     }
 
 
