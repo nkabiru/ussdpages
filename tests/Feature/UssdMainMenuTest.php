@@ -24,16 +24,6 @@ class UssdMainMenuTest extends TestCase
     }
 
     /** @test */
-    public function it_should_navigate_to_the_third_main_menu_option()
-    {
-        $this->ussdPost()
-            ->ussdPost('1234');
-
-        $this->post(route('display-ussd.index'), $this->sessionData + ['text' => '1234*3'])
-            ->assertSeeText('Your Last 5 Stored Items:');
-    }
-
-    /** @test */
     public function it_should_navigate_to_the_fourth_main_menu_option()
     {
         $this->ussdPost()
