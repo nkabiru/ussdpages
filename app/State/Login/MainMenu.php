@@ -43,6 +43,6 @@ class MainMenu implements State
 
     public function view()
     {
-        return "CON Main Menu:\n 1. Store a fruit\n2. Store a vegetable\n3. View Stored Items\n4. Get Item Report";
+        return "CON Main Menu:\n 1. Store an item\n2. Remove an item\n3. View Stored Items\n4. Get Item Report";
     }
 }

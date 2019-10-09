@@ -50,7 +50,7 @@ class UssdMainMenuTest extends TestCase
             ->ussdPost('1234');
 
         $this->post(route('display-ussd.index'), $this->sessionData + ['text' => '1234*3'])
-            ->assertSeeText('Your Stored Items:');
+            ->assertSeeText('Your Last 5 Stored Items:');
     }
 
     /** @test */
