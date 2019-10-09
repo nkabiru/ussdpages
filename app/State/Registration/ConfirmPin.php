@@ -6,7 +6,7 @@ use App\UssdSession;
 
 class ConfirmPin implements State
 {
-    use Backable, PinMatching;
+    use Backable, PinMatching, SavesInputHistory;
 
     private $context;
     private $session;
@@ -20,6 +20,8 @@ class ConfirmPin implements State
 
     public function input(string $input)
     {
+        $this->saveInputHistory($input);
+
         if ($this->isBackButton($input)) {
             $this->context->changeState(new EnterPin($this->context, $this->session));
         }

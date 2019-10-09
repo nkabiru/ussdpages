@@ -7,6 +7,8 @@ use App\UssdView;
 
 class EnterName implements State
 {
+    use SavesInputHistory;
+
     private $context;
     private $session;
 
@@ -19,9 +21,10 @@ class EnterName implements State
 
     public function input(string $input)
     {
+        $this->saveInputHistory($input);
+
         $this->context->changeState(new EnterPin($this->context, $this->session));
     }
-
 
     public function view()
     {

@@ -2,7 +2,6 @@
 
 namespace App\State\Registration;
 
-use App\Jobs\CreateUserInDatabase;
 use App\UssdSession;
 
 class CreateUser implements State
@@ -21,13 +20,7 @@ class CreateUser implements State
 
     public function input($input): void
     {
-        $previousInputs = explode('*', request('text'));
-
-        CreateUserInDatabase::dispatchNow([
-            'name' => $previousInputs[-2],
-            'phone_number' => request('phoneNumber'),
-            'pin' => $input
-        ]);
+       dd($this->session->input_history);
     }
 
 

@@ -9,6 +9,10 @@ class UssdSession extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'input_history' => 'array'
+    ];
+
     public function currentView()
     {
         return $this->belongsTo(UssdView::class, 'current_view_id');

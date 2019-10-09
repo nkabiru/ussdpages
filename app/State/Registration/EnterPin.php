@@ -3,10 +3,11 @@
 namespace App\State\Registration;
 
 use App\UssdSession;
-use App\UssdView;
 
 class EnterPin implements State
 {
+    use SavesInputHistory;
+
     private $context;
     private $session;
 
@@ -19,7 +20,7 @@ class EnterPin implements State
 
     public function input(string $input)
     {
-        // TODO: Implement pin() method.
+        $this->saveInputHistory($input);
 
         $this->context->changeState(new ConfirmPin($this->context, $this->session));
     }

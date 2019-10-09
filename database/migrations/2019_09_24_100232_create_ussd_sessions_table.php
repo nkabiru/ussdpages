@@ -20,6 +20,7 @@ class CreateUssdSessionsTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('current_view_id')->nullable();
             $table->string('state')->nullable();
+            $table->text('input_history')->nullable()->default(json_encode([]));
             $table->timestamps();
         });
     }
