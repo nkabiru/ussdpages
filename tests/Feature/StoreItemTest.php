@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UssdStoreItemTest extends TestCase
+class StoreItemTest extends TestCase
 {
     use RefreshDatabase;
 
