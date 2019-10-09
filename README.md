@@ -3,7 +3,7 @@
 This is a demo app showing how the [State design pattern](https://en.wikipedia.org/wiki/State_pattern) can be used to create complex
 ussd menus.
 
-##Uses:
+## Uses:
  * Laravel 6
  * Africa's Talking USSD Sandbox API
  
