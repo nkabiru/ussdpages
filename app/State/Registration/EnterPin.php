@@ -27,7 +27,7 @@ class EnterPin implements State
 
     public function view()
     {
-        return "CON Enter your PIN";
+        return "CON Enter a new PIN";
     }
 
 }

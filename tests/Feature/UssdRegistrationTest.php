@@ -57,7 +57,7 @@ class UssdRegistrationTest extends TestCase
         $this->post(route('display-ussd.index'), $this->sessionData + [
                 'text' => 'John Doe*1234*1234'
             ])
-            ->assertSeeText('Your registration was successful');
+            ->assertSeeText('You have registered successfully');
     }
 
     /** @test */

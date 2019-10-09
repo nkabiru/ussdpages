@@ -37,6 +37,6 @@ class ConfirmPin implements State
 
     public function view()
     {
-        return "CON Confirm PIN";
+        return "CON Confirm your PIN";
     }
 }

@@ -28,6 +28,6 @@ class EnterName implements State
 
     public function view()
     {
-        return "CON Enter your name";
+        return "CON Enter your full name";
     }
 }
