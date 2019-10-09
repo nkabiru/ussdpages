@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CreateUserInDatabase;
 use App\Navigator;
-use App\State\Registration\StateContext;
+use App\State\Registration\RegistrationContext;
 use App\User;
 use App\UssdSession;
 use App\UssdView;
@@ -22,7 +22,7 @@ class DisplayUssdController extends Controller
             'phone_number' => $request->phoneNumber,
         ]);
 
-        $context = new StateContext($session);
+        $context = new RegistrationContext($session);
 
         if (! is_null($session->state)) {
             $context->changeState(new $session->state($context, $session));

@@ -4,7 +4,7 @@ namespace App\State\Registration;
 
 use App\UssdSession;
 
-class StateContext
+class RegistrationContext
 {
     public $state;
 

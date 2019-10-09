@@ -9,7 +9,7 @@ class Initial implements State
     private $context;
     private $session;
 
-    public function __construct(StateContext $context, UssdSession $session)
+    public function __construct(RegistrationContext $context, UssdSession $session)
     {
         $this->context = $context;
         $this->session = $session;
