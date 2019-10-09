@@ -2,6 +2,7 @@
 
 namespace App\State\Registration;
 
+use App\Jobs\CreateUserInDatabase;
 use App\UssdSession;
 
 class CreateUser implements State
@@ -20,12 +21,39 @@ class CreateUser implements State
 
     public function input($input): void
     {
-       dd($this->session->input_history);
+
     }
 
 
+    /**
+     *  Creating the user here because the input function won't be hit by the user.
+     *  Same goes for deleting the UssdSession.
+     *
+     * @return string
+     */
     public function view()
     {
+        $this->createUser();
+        $this->deleteUssdSession();
+
         return "END You have registered successfully. Please dial the shortcode again to login";
     }
+
+    protected function createUser(): void
+    {
+        $inputHistory = $this->session->input_history;
+
+        CreateUserInDatabase::dispatchNow([
+            'name' => $inputHistory[EnterName::class],
+            'pin' => $inputHistory[EnterPin::class],
+            'phone_number' => request('phoneNumber')
+        ]);
+    }
+
+    protected function deleteUssdSession()
+    {
+        $this->session->delete();
+    }
+
+
 }
